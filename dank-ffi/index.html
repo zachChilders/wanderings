@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title></title>
+
+      
+
+      
+          <link rel="stylesheet" href="https://zachchilders.github.io/wanderings/site.css">
+      
+
+      
+      
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;zachchilders.github.io&#x2F;wanderings&#x2F;">
+                                <span itemprop="name">Home
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;zachchilders.github.io&#x2F;wanderings&#x2F;&#x2F;categories">
+                                <span itemprop="name">Categories
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;zachchilders.github.io&#x2F;wanderings&#x2F;&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;google.com">
+                                <span itemprop="name">Google
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">FFI Doesn&#x27;t Have to Be Awful</h1>
+        <span class="muted">
+    <svg style="margin-bottom:-3px" class="i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>2 minute read</span>
+    <svg style="margin-bottom: -3px" class="i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p>Integrating Rust into your existing application can go one of two ways.  You can rewrite from scratch, or you can <a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/strangler">use the strangler pattern</a> to rewrite components and call across your <a href="https://en.wikipedia.org/wiki/Foreign_function_interface">Foreign Function Interface</a> from your existing application.</p>
+<p>In a standard case, porting a C++ application to Rust, this means that you need to export some of your Rust APIs via a C interface, then importing them via another C interface to turn them into C++ calls.  This is way more work than we usually do to call a function, but it is worth it:</p>
+<ul>
+<li>We can make use of functionality across language barriers</li>
+<li>We can do it once then automate it and not worry about it anymore.</li>
+<li>We can begin migrating functionality across our ABI instead of in one go</li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<p>Most articles about Rust FFI focus on the other way - calling C/C++ from Rust.  We're focusing in the opposite direction, because that's the reality of larger porting efforts.  Because of that, we will make use of the lesser-known <a href="https://github.com/eqrion/cbindgen">CBindgen crate</a>.  This parses our Rust code looking for specific function signatures and generates a .h file from them.  Let's install it in our Cargo.toml:</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#c0c5ce;">[build-dependencies]
+</span><span style="color:#bf616a;">cbindgen </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;
+</span></code></pre>
+<p>In order to call Rust, we'll need to link in our generated binary statically and consume the header file.  This is a highly variable process, especially if your C++ project is larger.  Automation demands simplicity though, so we're going to choose to go with a CMake/Ninja setup.</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#c0c5ce;">
+</span></code></pre><pre style="background-color:#2b303b;">
+<code></code></pre>
+<p>I'd highly recommended to use a simple setup for your FFI validation, even if you're not going to consume it in exactly the same build system.  Keeping this part straightforward will allow for CBindgen and Cargo to handle the complexities of this whole adventure, meaning there shouldn't be much manual upkeep.  The benefits of having automated validation on your Rust code outweigh the costs of having a seperate stack in this component.</p>
+<h2 id="lightweight-c-tests">Lightweight C++ tests</h2>
+<h2 id="cargo-automation">Cargo Automation</h2>
+<h2 id="ci-cd">CI/CD</h2>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+            </p>
+            
+            
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>
