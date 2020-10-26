@@ -24,9 +24,6 @@ taxonomies = [
 
 after_dark_menu = [
     {url = "$BASE_URL", name = "Home"},
-    {url = "$BASE_URL/categories", name = "Categories"},
-    {url = "$BASE_URL/tags", name = "Tags"},
-    {url = "https://google.com", name = "Google"},
 ]
 
 after_dark_title = "Wanderings through Security, Rust, and Engineering"
